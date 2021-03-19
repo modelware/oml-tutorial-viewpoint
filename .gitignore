@@ -1,23 +1,16 @@
-# Compiled class file
-*.class
 
-# Log file
-*.log
+# Intellij
+.idea
+*.iml
 
-# BlueJ files
-*.ctxt
+# Gradle files
+.gradle
+build
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# MacOS files
+.DS_Store
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+# Fuseki output directory
+.fuseki
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+bin

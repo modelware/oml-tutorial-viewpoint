@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/table/description/1.1.0" xmlns:properties="http://www.eclipse.org/sirius/properties/1.0.0" xmlns:tool="http://www.eclipse.org/sirius/description/tool/1.1.0" name="viewpoints" version="12.0.0.2017041100">
+  <ownedViewpoints name="IMCE" modelFileExtension="oml">
+    <ownedRepresentations xsi:type="description_1:EditionTableDescription" name="Objectives" titleExpression="Objectives" domainClass="oml.Description">
+      <metamodel href="http://opencaesar.io/oml#/"/>
+      <ownedLineMappings name="Root" domainClass="oml.Description" semanticCandidatesExpression="aql:self" headerLabelExpression="feature:prefix">
+        <ownedSubLines name="Objective" domainClass="oml.ConceptInstance" semanticCandidatesExpression="aql:self.findNamedInstancesWithAbbreviatedTypeIri('mission:Objective')->select(i | i.findRelatedSourcesByAbbreviatedIri('mission:aggregates')->isEmpty())->sortedBy(i | i.name)" headerLabelExpression="feature:name">
+          <defaultForeground>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+          </defaultForeground>
+          <ownedSubLines name="Aggregated Objective" reusedSubLines="//@ownedViewpoints[name='IMCE']/@ownedRepresentations[name='Objectives']/@ownedLineMappings[name='Root']/@ownedSubLines[name='Objective']/@ownedSubLines[name='Aggregated%20Objective']" reusedInMappings="//@ownedViewpoints[name='IMCE']/@ownedRepresentations[name='Objectives']/@ownedLineMappings[name='Root']/@ownedSubLines[name='Objective']/@ownedSubLines[name='Aggregated%20Objective']" domainClass="oml.ConceptInstance" semanticCandidatesExpression="aql:self.findRelatedTargetsByAbbreviatedIri('mission:aggregates')->sortedBy(i | i.name)" headerLabelExpression="feature:name">
+            <defaultForeground>
+              <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </defaultForeground>
+            <delete name="Delete Objective">
+              <variables name="element" documentation="The semantic currently edited element."/>
+              <variables name="root" documentation="The semantic root element of the table."/>
+              <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="aql:self.deleteNamedInstance()"/>
+            </delete>
+          </ownedSubLines>
+          <create name="Add New Objective">
+            <variables name="root" documentation="The semantic root element of the table."/>
+            <variables name="element" documentation="The semantic currently edited element."/>
+            <variables name="container" documentation="The semantic element corresponding to the view container."/>
+            <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:root">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="oml.ConceptInstance" referenceName="ownedStatements">
+                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Objective"/>
+                <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
+                  <subModelOperations xsi:type="tool:CreateInstance" typeName="oml.ConceptTypeAssertion" referenceName="ownedTypes" variableName="type">
+                    <subModelOperations xsi:type="tool:SetValue" featureName="type" valueExpression="aql:root.getMemberByAbbreviatedIri('mission:Objective')"/>
+                  </subModelOperations>
+                </subModelOperations>
+                <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:element">
+                  <subModelOperations xsi:type="tool:CreateInstance" typeName="oml.LinkAssertion" referenceName="ownedLinks" variableName="link">
+                    <subModelOperations xsi:type="tool:SetValue" featureName="target" valueExpression="var:instance"/>
+                    <subModelOperations xsi:type="tool:SetValue" featureName="relation" valueExpression="aql:root.getMemberByAbbreviatedIri('mission:aggregates')"/>
+                  </subModelOperations>
+                </subModelOperations>
+              </subModelOperations>
+            </firstModelOperation>
+          </create>
+          <create name="Add Existing Objective">
+            <variables name="root" documentation="The semantic root element of the table."/>
+            <variables name="element" documentation="The semantic currently edited element."/>
+            <variables name="container" documentation="The semantic element corresponding to the view container."/>
+            <firstModelOperation xsi:type="tool:CreateInstance" typeName="oml.LinkAssertion" referenceName="ownedLinks" variableName="link">
+              <subModelOperations xsi:type="tool:SetValue" featureName="relation" valueExpression="aql:root.getMemberByAbbreviatedIri('mission:aggregates')"/>
+              <subModelOperations xsi:type="properties:DialogModelOperation" titleExpression="Select Existing Objective">
+                <buttons labelExpression="Cancel" closeDialogOnClick="true" rollbackChangesOnClose="true">
+                  <initialOperation>
+                    <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:self"/>
+                  </initialOperation>
+                </buttons>
+                <buttons labelExpression="OK" default="true" closeDialogOnClick="true">
+                  <initialOperation>
+                    <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:self"/>
+                  </initialOperation>
+                </buttons>
+                <page name="Objective" labelExpression="Objective" domainClass="oml.LinkAssertion" semanticCandidateExpression="var:self" groups="//@ownedViewpoints[name='IMCE']/@ownedRepresentations[name='Objectives']/@ownedLineMappings[name='Root']/@ownedSubLines[name='Objective']/@create.1/@firstModelOperation/@subModelOperations.1/@groups.0"/>
+                <groups name="Objective" labelExpression="Objective" domainClass="oml.LinkAssertion" semanticCandidateExpression="var:self">
+                  <controls xsi:type="properties:SelectDescription" name="Name" labelExpression="Name" valueExpression="aql:self.target" candidatesExpression="aql:self.getOntology().getStatements()->filter(oml::ConceptInstance)->excluding(self.getSource())->sortedBy(i | i.name)" candidateDisplayExpression="aql:candidate.name">
+                    <initialOperation>
+                      <firstModelOperations xsi:type="tool:SetValue" featureName="target" valueExpression="aql:newValue"/>
+                    </initialOperation>
+                  </controls>
+                </groups>
+              </subModelOperations>
+            </firstModelOperation>
+          </create>
+          <delete name="Delete Objective">
+            <variables name="element" documentation="The semantic currently edited element."/>
+            <variables name="root" documentation="The semantic root element of the table."/>
+            <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="aql:self.deleteNamedInstance()"/>
+          </delete>
+        </ownedSubLines>
+        <create name="Add New Objective">
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <variables name="element" documentation="The semantic currently edited element."/>
+          <variables name="container" documentation="The semantic element corresponding to the view container."/>
+          <firstModelOperation xsi:type="tool:CreateInstance" typeName="oml.ConceptInstance" referenceName="ownedStatements">
+            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Objective"/>
+            <subModelOperations xsi:type="tool:CreateInstance" typeName="oml.ConceptTypeAssertion" referenceName="ownedTypes" variableName="assertion">
+              <subModelOperations xsi:type="tool:SetValue" featureName="type" valueExpression="aql:instance.getOntology().getMemberByAbbreviatedIri('mission:Objective')"/>
+            </subModelOperations>
+          </firstModelOperation>
+        </create>
+        <delete name="Disabled" precondition="false">
+          <variables name="element" documentation="The semantic currently edited element."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:self"/>
+        </delete>
+      </ownedLineMappings>
+      <ownedColumnMappings name="label" headerLabelExpression="Label" featureName="name" labelExpression="aql:self.oclAsType(oml::AnnotatedElement).findAnnotationValuesForAbbreviatedIri('rdfs:label')->first().getLexicalValue()">
+        <directEdit>
+          <variables name="element" documentation="The semantic currently edited element."/>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="aql:self.oclAsType(oml::AnnotatedElement).setPropertyByAbbreviatedIri('rdfs:label', arg0)"/>
+          <mask mask="{0}"/>
+        </directEdit>
+      </ownedColumnMappings>
+      <ownedColumnMappings name="description" headerLabelExpression="Description" canEdit="true" featureName="name" labelExpression="aql:self.oclAsType(oml::AnnotatedElement).findAnnotationValuesForAbbreviatedIri('dc:description')->first().getLexicalValue()">
+        <directEdit>
+          <variables name="element" documentation="The semantic currently edited element."/>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="aql:self.oclAsType(oml::AnnotatedElement).setPropertyByAbbreviatedIri('dc:description', arg0)"/>
+          <mask mask="{0}"/>
+        </directEdit>
+      </ownedColumnMappings>
+    </ownedRepresentations>
+    <ownedJavaExtensions qualifiedClassName="io.opencaesar.oml.util.OmlSearch"/>
+    <ownedJavaExtensions qualifiedClassName="io.opencaesar.oml.util.OmlRead"/>
+    <ownedJavaExtensions qualifiedClassName="defaultpackage.Services"/>
+  </ownedViewpoints>
+  <extensions xsi:type="properties:ViewExtensionDescription" name="Properties">
+    <categories name="Default Category">
+      <pages name="Named Instance" labelExpression="General" domainClass="oml.NamedInstance" semanticCandidateExpression="var:self" groups="//@extensions.0/@categories.0/@groups.0"/>
+      <groups name="Named Instance" labelExpression="Named Instance" domainClass="oml.NamedInstance" semanticCandidateExpression="var:self">
+        <controls xsi:type="properties:TextDescription" name="Name" labelExpression="Name" valueExpression="aql:self.name">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="var:newValue"/>
+          </initialOperation>
+        </controls>
+        <controls xsi:type="properties:TextDescription" name="Label" labelExpression="Label" valueExpression="aql:self.getAnnotationByAbbreviatedIri('rdfs:label')">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.oclAsType(oml::AnnotatedElement).setPropertyByAbbreviatedIri('rdfs:label', newValue)"/>
+          </initialOperation>
+        </controls>
+        <controls xsi:type="properties:TextAreaDescription" name="Description" labelExpression="Description" valueExpression="aql:self.getAnnotationByAbbreviatedIri('dc:description')">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.oclAsType(oml::AnnotatedElement).setPropertyByAbbreviatedIri('dc:description', newValue)"/>
+          </initialOperation>
+        </controls>
+      </groups>
+    </categories>
+  </extensions>
+</description:Group>
