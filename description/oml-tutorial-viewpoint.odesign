@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/table/description/1.1.0" xmlns:properties="http://www.eclipse.org/sirius/properties/1.0.0" xmlns:tool="http://www.eclipse.org/sirius/description/tool/1.1.0" name="viewpoints" version="12.0.0.2017041100">
-  <ownedViewpoints name="IMCE" modelFileExtension="oml">
-    <ownedRepresentations xsi:type="description_1:EditionTableDescription" name="Objectives" titleExpression="Objectives" domainClass="oml.Description">
+<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/table/description/1.1.0" xmlns:description_2="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:properties="http://www.eclipse.org/sirius/properties/1.0.0" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:tool="http://www.eclipse.org/sirius/description/tool/1.1.0" xmlns:tool_1="http://www.eclipse.org/sirius/diagram/description/tool/1.1.0" name="viewpoints" version="12.0.0.2017041100">
+  <ownedViewpoints name="Descriptions" modelFileExtension="oml">
+    <ownedRepresentations xsi:type="description_1:EditionTableDescription" name="Objectives Table" titleExpression="Objectives Table" domainClass="oml.Description">
       <metamodel href="http://opencaesar.io/oml#/"/>
       <ownedLineMappings name="Root" domainClass="oml.Description" semanticCandidatesExpression="aql:self" headerLabelExpression="feature:prefix">
         <ownedSubLines name="Objective" domainClass="oml.ConceptInstance" semanticCandidatesExpression="aql:self.findNamedInstancesWithAbbreviatedTypeIri('mission:Objective')->select(i | i.findRelatedSourcesByAbbreviatedIri('mission:aggregates')->isEmpty())->sortedBy(i | i.name)" headerLabelExpression="feature:name">
           <defaultForeground>
             <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </defaultForeground>
-          <ownedSubLines name="Aggregated Objective" reusedSubLines="//@ownedViewpoints[name='IMCE']/@ownedRepresentations[name='Objectives']/@ownedLineMappings[name='Root']/@ownedSubLines[name='Objective']/@ownedSubLines[name='Aggregated%20Objective']" reusedInMappings="//@ownedViewpoints[name='IMCE']/@ownedRepresentations[name='Objectives']/@ownedLineMappings[name='Root']/@ownedSubLines[name='Objective']/@ownedSubLines[name='Aggregated%20Objective']" domainClass="oml.ConceptInstance" semanticCandidatesExpression="aql:self.findRelatedTargetsByAbbreviatedIri('mission:aggregates')->sortedBy(i | i.name)" headerLabelExpression="feature:name">
+          <ownedSubLines name="Aggregated Objective" reusedSubLines="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Objectives%20Table']/@ownedLineMappings[name='Root']/@ownedSubLines[name='Objective']/@ownedSubLines[name='Aggregated%20Objective']" reusedInMappings="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Objectives%20Table']/@ownedLineMappings[name='Root']/@ownedSubLines[name='Objective']/@ownedSubLines[name='Aggregated%20Objective']" domainClass="oml.ConceptInstance" semanticCandidatesExpression="aql:self.findRelatedTargetsByAbbreviatedIri('mission:aggregates')->sortedBy(i | i.name)" headerLabelExpression="feature:name">
             <defaultForeground>
               <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </defaultForeground>
@@ -35,7 +35,7 @@
                       <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:self"/>
                     </initialOperation>
                   </buttons>
-                  <page name="Objective" labelExpression="Objective" domainClass="oml.LinkAssertion" semanticCandidateExpression="var:self" groups="//@ownedViewpoints[name='IMCE']/@ownedRepresentations[name='Objectives']/@ownedLineMappings[name='Root']/@ownedSubLines[name='Objective']/@ownedSubLines[name='Aggregated%20Objective']/@create.1/@firstModelOperation/@subModelOperations.1/@groups.0"/>
+                  <page name="Objective" labelExpression="Objective" domainClass="oml.LinkAssertion" semanticCandidateExpression="var:self" groups="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Objectives%20Table']/@ownedLineMappings[name='Root']/@ownedSubLines[name='Objective']/@ownedSubLines[name='Aggregated%20Objective']/@create.1/@firstModelOperation/@subModelOperations.1/@groups.0"/>
                   <groups name="Objective" labelExpression="Objective" domainClass="oml.LinkAssertion" semanticCandidateExpression="var:self">
                     <controls xsi:type="properties:SelectDescription" name="Name" labelExpression="Name" valueExpression="aql:self.target" candidatesExpression="aql:self.getOntology().getStatements()->filter(oml::ConceptInstance)->excluding(self.getSource())->sortedBy(i | i.name)" candidateDisplayExpression="aql:candidate.name">
                       <initialOperation>
@@ -69,7 +69,7 @@
                     <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:self"/>
                   </initialOperation>
                 </buttons>
-                <page name="Objective" labelExpression="Objective" domainClass="oml.LinkAssertion" semanticCandidateExpression="var:self" groups="//@ownedViewpoints[name='IMCE']/@ownedRepresentations[name='Objectives']/@ownedLineMappings[name='Root']/@ownedSubLines[name='Objective']/@create.0/@firstModelOperation/@subModelOperations.1/@groups.0"/>
+                <page name="Objective" labelExpression="Objective" domainClass="oml.LinkAssertion" semanticCandidateExpression="var:self" groups="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Objectives%20Table']/@ownedLineMappings[name='Root']/@ownedSubLines[name='Objective']/@create.0/@firstModelOperation/@subModelOperations.1/@groups.0"/>
                 <groups name="Objective" labelExpression="Objective" domainClass="oml.LinkAssertion" semanticCandidateExpression="var:self">
                   <controls xsi:type="properties:SelectDescription" name="Name" labelExpression="Name" valueExpression="aql:self.target" candidatesExpression="aql:self.getOntology().getStatements()->filter(oml::ConceptInstance)->excluding(self.getSource())->sortedBy(i | i.name)" candidateDisplayExpression="aql:candidate.name">
                     <initialOperation>
@@ -126,14 +126,97 @@
         </directEdit>
       </ownedColumnMappings>
     </ownedRepresentations>
+    <ownedRepresentations xsi:type="description_2:DiagramDescription" name="Objectives Diagrams" titleExpression="Objectives Diagram" domainClass="oml.Description" enablePopupBars="true">
+      <defaultLayer name="Default">
+        <nodeMappings name="Objective" semanticCandidatesExpression="aql:self.findNamedInstancesWithAbbreviatedTypeIri('mission:Objective')" domainClass="oml.ConceptInstance">
+          <style xsi:type="style:SquareDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:'«objective»\n'+self.name" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
+          </style>
+        </nodeMappings>
+        <edgeMappings name="Aggregates" sourceMapping="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Objectives%20Diagrams']/@defaultLayer/@nodeMappings[name='Objective']" targetMapping="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Objectives%20Diagrams']/@defaultLayer/@nodeMappings[name='Objective']" targetFinderExpression="aql:self.target" sourceFinderExpression="aql:self.getSource()" domainClass="oml.LinkAssertion" useDomainElement="true">
+          <style sourceArrow="Diamond">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12" showIcon="false">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <toolSections name="Nodes">
+          <ownedTools xsi:type="tool_1:NodeCreationDescription" name="Objective" nodeMappings="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Objectives%20Diagrams']/@defaultLayer/@nodeMappings[name='Objective']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:CreateInstance" typeName="oml.ConceptInstance" referenceName="ownedStatements">
+                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Objective"/>
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="oml.ConceptTypeAssertion" referenceName="ownedTypes" variableName="assertion">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="type" valueExpression="aql:instance.getOntology().getMemberByAbbreviatedIri('mission:Objective')"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+        <toolSections name="Edges">
+          <ownedTools xsi:type="tool_1:EdgeCreationDescription" name="Aggregates" edgeMappings="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Objectives%20Diagrams']/@defaultLayer/@edgeMappings[name='Aggregates']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:CreateInstance" typeName="oml.LinkAssertion" referenceName="ownedLinks" variableName="link">
+                <subModelOperations xsi:type="tool:SetValue" featureName="relation" valueExpression="aql:root.getMemberByAbbreviatedIri('mission:aggregates')"/>
+                <subModelOperations xsi:type="tool:SetValue" featureName="target" valueExpression="var:target"/>
+                <subModelOperations xsi:type="tool:SetValue" featureName="owningInstance" valueExpression="var:source"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+      </defaultLayer>
+    </ownedRepresentations>
     <ownedJavaExtensions qualifiedClassName="io.opencaesar.oml.util.OmlSearch"/>
     <ownedJavaExtensions qualifiedClassName="io.opencaesar.oml.util.OmlRead"/>
     <ownedJavaExtensions qualifiedClassName="io.opencaesar.oml.tutorial.viewpoint.Services"/>
   </ownedViewpoints>
+  <ownedViewpoints name="Vocabularies">
+    <ownedRepresentations xsi:type="description_2:DiagramDescription" name="Entity Diagram" titleExpression="Entity Diagram" domainClass="oml.Vocabulary" enablePopupBars="true">
+      <defaultLayer name="Default">
+        <edgeMappings name="RelationEntity" sourceMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetFinderExpression="aql:self.target" sourceFinderExpression="aql:self.source" domainClass="oml.RelationEntity" useDomainElement="true">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12" showIcon="false" labelExpression="aql:self.name">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="SpecializationAxiom" sourceMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetFinderExpression="aql:self.getGeneralTerm()" sourceFinderExpression="aql:self.getSpecificTerm()" domainClass="oml.SpecializationAxiom" useDomainElement="true">
+          <style targetArrow="InputClosedArrow" sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+          </style>
+        </edgeMappings>
+        <containerMappings name="Concept" semanticCandidatesExpression="aql:self.ownedStatements" domainClass="oml.Concept" childrenPresentation="List">
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:'«concept»\n'+self.name" backgroundStyle="GradientTopToBottom">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+          </style>
+        </containerMappings>
+        <containerMappings name="Aspect" semanticCandidatesExpression="aql:self.ownedStatements" domainClass="oml.Aspect" childrenPresentation="List">
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:'«aspect»\n'+self.name" backgroundStyle="GradientTopToBottom">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
+          </style>
+        </containerMappings>
+      </defaultLayer>
+    </ownedRepresentations>
+  </ownedViewpoints>
   <extensions xsi:type="properties:ViewExtensionDescription" name="Properties">
     <categories name="Default Category">
-      <pages name="Named Instance" labelExpression="General" domainClass="oml.NamedInstance" semanticCandidateExpression="var:self" groups="//@extensions.0/@categories.0/@groups.0"/>
-      <groups name="Named Instance" labelExpression="Named Instance" domainClass="oml.NamedInstance" semanticCandidateExpression="var:self">
+      <pages name="General" labelExpression="General" domainClass="oml.Element" semanticCandidateExpression="var:self" groups="//@extensions.0/@categories.0/@groups.0 //@extensions.0/@categories.0/@groups.1"/>
+      <groups name="Identified Element" labelExpression="Identified Element" domainClass="oml.IdentifiedElement" semanticCandidateExpression="var:self">
         <controls xsi:type="properties:TextDescription" name="Name" labelExpression="Name" valueExpression="aql:self.name">
           <initialOperation>
             <firstModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="var:newValue"/>
@@ -147,6 +230,101 @@
         <controls xsi:type="properties:TextAreaDescription" name="Description" labelExpression="Description" valueExpression="aql:self.getAnnotationByAbbreviatedIri('dc:description')">
           <initialOperation>
             <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.oclAsType(oml::AnnotatedElement).setPropertyByAbbreviatedIri('dc:description', newValue)"/>
+          </initialOperation>
+        </controls>
+      </groups>
+      <groups name="Relation Entity" labelExpression="Relation Entity" domainClass="oml.RelationEntity" semanticCandidateExpression="var:self">
+        <controls xsi:type="properties:HyperlinkDescription" name="Source" labelExpression="Source" valueExpression="aql:self.source" displayExpression="aql:value.name">
+          <initialOperation>
+            <firstModelOperations xsi:type="properties:DialogModelOperation" titleExpression="Select Source">
+              <buttons labelExpression="Cancel" closeDialogOnClick="true" rollbackChangesOnClose="true">
+                <initialOperation>
+                  <firstModelOperations xsi:type="tool:ChangeContext"/>
+                </initialOperation>
+              </buttons>
+              <buttons labelExpression="OK" default="true" closeDialogOnClick="true">
+                <initialOperation>
+                  <firstModelOperations xsi:type="tool:ChangeContext"/>
+                </initialOperation>
+              </buttons>
+              <page name="Source Entity" labelExpression="Source Entity" domainClass="oml.RelationEntity" semanticCandidateExpression="var:self" groups="//@extensions.0/@categories.0/@groups.1/@controls.0/@initialOperation/@firstModelOperations/@groups.0"/>
+              <groups name="Entity" labelExpression="Entity" domainClass="oml.RelationEntity" semanticCandidateExpression="var:self">
+                <controls xsi:type="properties:SelectDescription" name="Name" labelExpression="Name" valueExpression="aql:self.source" candidatesExpression="aql:self.getOntology().getStatements()->filter(oml::Entity)->sortedBy(i | i.name)" candidateDisplayExpression="aql:candidate.name">
+                  <initialOperation>
+                    <firstModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:newValue"/>
+                  </initialOperation>
+                </controls>
+              </groups>
+            </firstModelOperations>
+          </initialOperation>
+        </controls>
+        <controls xsi:type="properties:HyperlinkDescription" name="Target" labelExpression="Target" valueExpression="aql:self.target" displayExpression="aql:value.name">
+          <initialOperation>
+            <firstModelOperations xsi:type="properties:DialogModelOperation" titleExpression="Select Target">
+              <buttons labelExpression="Cancel" closeDialogOnClick="true" rollbackChangesOnClose="true">
+                <initialOperation>
+                  <firstModelOperations xsi:type="tool:ChangeContext"/>
+                </initialOperation>
+              </buttons>
+              <buttons labelExpression="OK" default="true" closeDialogOnClick="true">
+                <initialOperation>
+                  <firstModelOperations xsi:type="tool:ChangeContext"/>
+                </initialOperation>
+              </buttons>
+              <page name="Target Entity" labelExpression="Target Entity" domainClass="oml.RelationEntity" semanticCandidateExpression="var:self" groups="//@extensions.0/@categories.0/@groups.1/@controls.1/@initialOperation/@firstModelOperations/@groups.0"/>
+              <groups name="Entity" labelExpression="Entity" domainClass="oml.RelationEntity" semanticCandidateExpression="var:self">
+                <controls xsi:type="properties:SelectDescription" name="Name" labelExpression="Name" valueExpression="aql:self.target" candidatesExpression="aql:self.getOntology().getStatements()->filter(oml::Entity)->sortedBy(i | i.name)" candidateDisplayExpression="aql:candidate.name">
+                  <initialOperation>
+                    <firstModelOperations xsi:type="tool:SetValue" featureName="target" valueExpression="aql:newValue"/>
+                  </initialOperation>
+                </controls>
+              </groups>
+            </firstModelOperations>
+          </initialOperation>
+        </controls>
+        <controls xsi:type="properties:TextDescription" name="Forward" labelExpression="Forward" valueExpression="aql:self.forwardRelation.name">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.oclAsType(oml::RelationEntity).setForwardRelation(newValue)"/>
+          </initialOperation>
+        </controls>
+        <controls xsi:type="properties:TextDescription" name="Reverse" labelExpression="Reverse" valueExpression="aql:self.reverseRelation.name">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.oclAsType(oml::RelationEntity).setReverseRelation(newValue)"/>
+          </initialOperation>
+        </controls>
+        <controls xsi:type="properties:CheckboxDescription" name="Functional" labelExpression="Functional" valueExpression="aql:self.functional">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:SetValue" featureName="functional" valueExpression="var:newValue"/>
+          </initialOperation>
+        </controls>
+        <controls xsi:type="properties:CheckboxDescription" name="Inverse Functional" labelExpression="Inverse Functional" valueExpression="aql:self.inverseFunctional">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:SetValue" featureName="inverseFunctional" valueExpression="var:newValue"/>
+          </initialOperation>
+        </controls>
+        <controls xsi:type="properties:CheckboxDescription" name="Symmetric" labelExpression="Symmetric" valueExpression="aql:self.symmetric">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:SetValue" featureName="symmetric" valueExpression="var:newValue"/>
+          </initialOperation>
+        </controls>
+        <controls xsi:type="properties:CheckboxDescription" name="Asymmetric" labelExpression="Asymmetric" valueExpression="aql:self.asymmetric">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:SetValue" featureName="asymmetric" valueExpression="var:newValue"/>
+          </initialOperation>
+        </controls>
+        <controls xsi:type="properties:CheckboxDescription" name="Reflexive" labelExpression="Reflexive" valueExpression="aql:self.reflexive">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:SetValue" featureName="reflexive" valueExpression="var:newValue"/>
+          </initialOperation>
+        </controls>
+        <controls xsi:type="properties:CheckboxDescription" name="Irreflexive" labelExpression="Irreflexive" valueExpression="aql:self.irreflexive">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:SetValue" featureName="irreflexive" valueExpression="var:newValue"/>
+          </initialOperation>
+        </controls>
+        <controls xsi:type="properties:CheckboxDescription" name="Transitive" labelExpression="Transitive" valueExpression="aql:self.transitive">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:SetValue" featureName="transitive" valueExpression="var:newValue"/>
           </initialOperation>
         </controls>
       </groups>

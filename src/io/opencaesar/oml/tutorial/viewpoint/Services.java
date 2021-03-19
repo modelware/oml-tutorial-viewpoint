@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import io.opencaesar.oml.AnnotatedElement;
 import io.opencaesar.oml.AnnotationProperty;
+import io.opencaesar.oml.ForwardRelation;
 import io.opencaesar.oml.LinkAssertion;
 import io.opencaesar.oml.Literal;
 import io.opencaesar.oml.NamedInstance;
@@ -15,9 +16,12 @@ import io.opencaesar.oml.OmlFactory;
 import io.opencaesar.oml.PropertyValueAssertion;
 import io.opencaesar.oml.Reference;
 import io.opencaesar.oml.Relation;
+import io.opencaesar.oml.RelationEntity;
 import io.opencaesar.oml.RelationInstance;
+import io.opencaesar.oml.ReverseRelation;
 import io.opencaesar.oml.ScalarProperty;
 import io.opencaesar.oml.ScalarPropertyValueAssertion;
+import io.opencaesar.oml.util.OmlFactory2;
 import io.opencaesar.oml.util.OmlRead;
 import io.opencaesar.oml.util.OmlSearch;
 
@@ -26,8 +30,8 @@ import io.opencaesar.oml.util.OmlSearch;
  */
 public class Services {
     
-	public static Object getAnnotationByAbbreviatedIri(NamedInstance instance, String abbreviatedPropertyIri) {
-		for (var propertyValue : OmlSearch.findAnnotationValuesForAbbreviatedIri(instance, abbreviatedPropertyIri)) {
+	public static Object getAnnotationByAbbreviatedIri(AnnotatedElement element, String abbreviatedPropertyIri) {
+		for (var propertyValue : OmlSearch.findAnnotationValuesForAbbreviatedIri(element, abbreviatedPropertyIri)) {
 			return OmlRead.getLiteralValue(propertyValue);
 		}
 		return null;
@@ -126,4 +130,31 @@ public class Services {
 			EcoreUtil.delete(link);
 		}
 	}
+
+	public static void setForwardRelation(RelationEntity entity, String name) {
+		if (name.equals("")) name = null;
+		if (entity.getForwardRelation() != null && name == null) {
+			EcoreUtil.delete(entity.getForwardRelation());
+		} else if (entity.getForwardRelation() == null && name != null) {
+			var forward = OmlFactory2.INSTANCE.create(ForwardRelation.class);
+			forward.setName(name);
+			entity.setForwardRelation(forward);
+		} else {
+			entity.getForwardRelation().setName(name);
+		}
+	}
+	
+	public static void setReverseRelation(RelationEntity entity, String name) {
+		if (name.equals("")) name = null;
+		if (entity.getReverseRelation() != null && name == null) {
+			EcoreUtil.delete(entity.getReverseRelation());
+		} else if (entity.getReverseRelation() == null && name != null) {
+			var reverse = OmlFactory2.INSTANCE.create(ReverseRelation.class);
+			reverse.setName(name);
+			entity.setReverseRelation(reverse);
+		} else {
+			entity.getReverseRelation().setName(name);
+		}
+	}
+
 }
