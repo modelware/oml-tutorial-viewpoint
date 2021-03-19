@@ -1,6 +1,7 @@
 package io.opencaesar.oml.tutorial.viewpoint;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -13,6 +14,7 @@ import io.opencaesar.oml.NamedInstanceReference;
 import io.opencaesar.oml.OmlFactory;
 import io.opencaesar.oml.PropertyValueAssertion;
 import io.opencaesar.oml.Reference;
+import io.opencaesar.oml.Relation;
 import io.opencaesar.oml.RelationInstance;
 import io.opencaesar.oml.ScalarProperty;
 import io.opencaesar.oml.ScalarPropertyValueAssertion;
@@ -114,4 +116,14 @@ public class Services {
 		EcoreUtil.delete(instance);
 	}
 
+	public static void deleteLinkByAbbreviatedIri(NamedInstance source, NamedInstance target, String abbreviatedRelationIri) {
+		Relation relation = (Relation) OmlRead.getMemberByAbbreviatedIri(source.eResource().getResourceSet(), abbreviatedRelationIri);
+		var links = OmlSearch.findLinkAssertionsWithTarget(target).stream().
+				filter(a -> a.getRelation() == relation).
+				filter(a -> OmlRead.getSource(a) == source).
+				collect(Collectors.toList());
+		for (var link : links) {
+			EcoreUtil.delete(link);
+		}
+	}
 }
