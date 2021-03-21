@@ -127,6 +127,7 @@
       </ownedColumnMappings>
     </ownedRepresentations>
     <ownedRepresentations xsi:type="description_2:DiagramDescription" name="Objectives Diagrams" titleExpression="Objectives Diagram" domainClass="oml.Description" enablePopupBars="true">
+      <metamodel href="http://opencaesar.io/oml#/"/>
       <defaultLayer name="Default">
         <nodeMappings name="Objective" semanticCandidatesExpression="aql:self.findNamedInstancesWithAbbreviatedTypeIri('mission:Objective')" domainClass="oml.ConceptInstance">
           <style xsi:type="style:SquareDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:'«objective»\n'+self.name" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW">
@@ -180,38 +181,110 @@
   </ownedViewpoints>
   <ownedViewpoints name="Vocabularies">
     <ownedRepresentations xsi:type="description_2:DiagramDescription" name="Entity Diagram" titleExpression="Entity Diagram" domainClass="oml.Vocabulary" enablePopupBars="true">
+      <metamodel href="http://opencaesar.io/oml#/"/>
       <defaultLayer name="Default">
-        <edgeMappings name="RelationEntity" sourceMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetFinderExpression="aql:self.target" sourceFinderExpression="aql:self.source" domainClass="oml.RelationEntity" useDomainElement="true">
+        <edgeMappings name="RelationEntity" semanticCandidatesExpression="aql:self.getVisualizedEntities()" doubleClickDescription="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='NavigateToXtextEditor']" sourceMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetFinderExpression="aql:self.target" sourceFinderExpression="aql:self.source" domainClass="oml.RelationEntity" useDomainElement="true">
           <style sizeComputationExpression="2">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
-            <centerLabelStyleDescription labelSize="12" showIcon="false" labelExpression="aql:self.name">
+            <beginLabelStyleDescription labelSize="12" showIcon="false" labelExpression="aql:if self.inverseFunctional then '0..1' else '' endif">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </beginLabelStyleDescription>
+            <centerLabelStyleDescription labelSize="12" showIcon="false" labelExpression="aql:self.forwardRelation.name">
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </centerLabelStyleDescription>
+            <endLabelStyleDescription labelSize="12" showIcon="false" labelExpression="aql:if self.functional then '0..1' else '' endif">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </endLabelStyleDescription>
           </style>
         </edgeMappings>
-        <edgeMappings name="SpecializationAxiom" sourceMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetFinderExpression="aql:self.getGeneralTerm()" sourceFinderExpression="aql:self.getSpecificTerm()" domainClass="oml.SpecializationAxiom" useDomainElement="true">
+        <edgeMappings name="SpecializationAxiom" doubleClickDescription="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='NavigateToXtextEditor']" sourceMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetFinderExpression="aql:self.getGeneralTerm()" sourceFinderExpression="aql:self.getSpecificTerm()" domainClass="oml.SpecializationAxiom" useDomainElement="true">
           <style targetArrow="InputClosedArrow" sizeComputationExpression="2">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
           </style>
         </edgeMappings>
-        <containerMappings name="Concept" semanticCandidatesExpression="aql:self.ownedStatements" domainClass="oml.Concept" childrenPresentation="List">
-          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:'«concept»\n'+self.name" backgroundStyle="GradientTopToBottom">
+        <edgeMappings name="RelationRangeRestrictionAxiom" semanticCandidatesExpression="aql:self.getVisualizedRestrictions()" doubleClickDescription="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='NavigateToXtextEditor']" sourceMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetFinderExpression="aql:self.range" sourceFinderExpression="aql: self.getRestrictingEntity()" domainClass="oml.RelationRangeRestrictionAxiom" useDomainElement="true">
+          <style sourceArrow="OutputClosedArrow" sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12" showIcon="false" labelExpression="aql:if self.kind = oml::RangeRestrictionKind::all then '∀ ' else '∃ ' endif+self.relation.name">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="RelationCardinalityRestrictionAxiom" semanticCandidatesExpression="aql:self.getVisualizedRestrictions()" doubleClickDescription="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='NavigateToXtextEditor']" sourceMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetFinderExpression="aql:self.range" sourceFinderExpression="aql: self.getRestrictingEntity()" domainClass="oml.RelationCardinalityRestrictionAxiom" useDomainElement="true">
+          <style sourceArrow="OutputClosedArrow" sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12" showIcon="false" labelExpression="aql:if self.kind = oml::RangeRestrictionKind::all then '∀ ' else '∃ ' endif+self.relation.name">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+            <endLabelStyleDescription labelSize="12" showIcon="false" labelExpression="aql:if self.kind = oml::CardinalityRestrictionKind::min or self.kind = oml::CardinalityRestrictionKind::exactly then self.cardinality else '0' endif+'..'+ if self.kind = oml::CardinalityRestrictionKind::max or self.kind = oml::CardinalityRestrictionKind::exactly then self.cardinality else '*' endif">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </endLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="RelationTargetRestrictionAxiom" doubleClickDescription="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='NavigateToXtextEditor']" sourceMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']" targetMapping="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='ConceptInstance']" targetFinderExpression="aql:self.target" sourceFinderExpression="aql:self.getRestrictingEntity()" domainClass="oml.RelationTargetRestrictionAxiom" useDomainElement="true">
+          <style lineStyle="dash" sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12" showIcon="false" labelExpression="aql:self.relation.name">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <containerMappings name="Concept" semanticCandidatesExpression="aql:self.getVisualizedEntities()" doubleClickDescription="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='NavigateToXtextEditor']" domainClass="oml.Concept" childrenPresentation="List">
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:'«concept»\n'+self.name" tooltipExpression="aql:self.getOntology().prefix+':'+self.name" backgroundStyle="GradientTopToBottom">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
             <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
           </style>
         </containerMappings>
-        <containerMappings name="Aspect" semanticCandidatesExpression="aql:self.ownedStatements" domainClass="oml.Aspect" childrenPresentation="List">
-          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:'«aspect»\n'+self.name" backgroundStyle="GradientTopToBottom">
+        <containerMappings name="Aspect" semanticCandidatesExpression="aql:self.getVisualizedEntities()" doubleClickDescription="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='NavigateToXtextEditor']" domainClass="oml.Aspect" childrenPresentation="List">
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:'«aspect»\n'+self.name" tooltipExpression="aql:self.getOntology().prefix+':'+self.name" backgroundStyle="GradientTopToBottom">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
-            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
           </style>
         </containerMappings>
+        <containerMappings name="ConceptInstance" semanticCandidatesExpression="aql:self.getVisualizedNamedInstances()" doubleClickDescription="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='NavigateToXtextEditor']" domainClass="oml.ConceptInstance" childrenPresentation="List">
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:'«concept instance»\n'+self.name" tooltipExpression="aql:self.getOntology().prefix+':'+self.name" backgroundStyle="GradientTopToBottom">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+          </style>
+        </containerMappings>
+        <toolSections name="Double Click Tools">
+          <ownedTools xsi:type="tool_1:DoubleClickDescription" name="NavigateToXtextEditor" mappings="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='ConceptInstance'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@edgeMappings[name='RelationCardinalityRestrictionAxiom'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@edgeMappings[name='RelationEntity'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@edgeMappings[name='RelationRangeRestrictionAxiom'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@edgeMappings[name='RelationTargetRestrictionAxiom'] //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@edgeMappings[name='SpecializationAxiom']">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:element">
+                <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.openTextEditor()"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+        <customization>
+          <vsmElementCustomizations xsi:type="description:VSMElementCustomization" predicateExpression="aql:self.oclAsType(oml::IdentifiedElement).getOntology() &lt;> container">
+            <featureCustomizations xsi:type="description:EReferenceCustomization" appliedOn="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Aspect']/@style //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='Concept']/@style //@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@containerMappings[name='ConceptInstance']/@style" referenceName="foregroundColor">
+              <value href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
+            </featureCustomizations>
+          </vsmElementCustomizations>
+          <vsmElementCustomizations xsi:type="description:VSMElementCustomization" predicateExpression="aql:let r = self.oclAsType(oml::RelationEntity) in r.source =r.target">
+            <featureCustomizations xsi:type="description:EAttributeCustomization" appliedOn="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@edgeMappings[name='RelationEntity']/@style" attributeName="routingStyle" value="manhattan"/>
+          </vsmElementCustomizations>
+          <vsmElementCustomizations xsi:type="description:VSMElementCustomization" predicateExpression="aql:let r = self.oclAsType(oml::RelationRangeRestrictionAxiom) in r.getRestrictingEntity() =r.range">
+            <featureCustomizations xsi:type="description:EAttributeCustomization" appliedOn="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@edgeMappings[name='RelationRangeRestrictionAxiom']/@style" attributeName="routingStyle" value="manhattan"/>
+          </vsmElementCustomizations>
+          <vsmElementCustomizations xsi:type="description:VSMElementCustomization" predicateExpression="aql:let r = self.oclAsType(oml::RelationCardinalityRestrictionAxiom) in r.getRestrictingEntity() =r.range">
+            <featureCustomizations xsi:type="description:EAttributeCustomization" appliedOn="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@edgeMappings[name='RelationCardinalityRestrictionAxiom']/@style" attributeName="routingStyle" value="manhattan"/>
+          </vsmElementCustomizations>
+        </customization>
       </defaultLayer>
     </ownedRepresentations>
+    <ownedJavaExtensions qualifiedClassName="io.opencaesar.oml.util.OmlSearch"/>
+    <ownedJavaExtensions qualifiedClassName="io.opencaesar.oml.util.OmlRead"/>
+    <ownedJavaExtensions qualifiedClassName="io.opencaesar.oml.tutorial.viewpoint.Services"/>
   </ownedViewpoints>
   <extensions xsi:type="properties:ViewExtensionDescription" name="Properties">
     <categories name="Default Category">
