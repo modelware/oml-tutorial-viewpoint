@@ -1,5 +1,6 @@
 package io.opencaesar.oml.tutorial.viewpoint;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +24,12 @@ import org.eclipse.xtext.resource.XtextResource;
 
 import io.opencaesar.oml.AnnotatedElement;
 import io.opencaesar.oml.AnnotationProperty;
+import io.opencaesar.oml.ConceptInstance;
+import io.opencaesar.oml.ConceptInstanceReference;
+import io.opencaesar.oml.Description;
+import io.opencaesar.oml.DifferentFromPredicate;
 import io.opencaesar.oml.Entity;
+import io.opencaesar.oml.EntityPredicate;
 import io.opencaesar.oml.EntityReference;
 import io.opencaesar.oml.ForwardRelation;
 import io.opencaesar.oml.LinkAssertion;
@@ -31,16 +37,23 @@ import io.opencaesar.oml.Literal;
 import io.opencaesar.oml.NamedInstance;
 import io.opencaesar.oml.NamedInstanceReference;
 import io.opencaesar.oml.OmlFactory;
+import io.opencaesar.oml.Predicate;
 import io.opencaesar.oml.PropertyValueAssertion;
+import io.opencaesar.oml.QuotedLiteral;
 import io.opencaesar.oml.Reference;
 import io.opencaesar.oml.Relation;
 import io.opencaesar.oml.RelationCardinalityRestrictionAxiom;
 import io.opencaesar.oml.RelationEntity;
+import io.opencaesar.oml.RelationEntityPredicate;
 import io.opencaesar.oml.RelationInstance;
+import io.opencaesar.oml.RelationInstanceReference;
+import io.opencaesar.oml.RelationPredicate;
 import io.opencaesar.oml.RelationRangeRestrictionAxiom;
 import io.opencaesar.oml.RelationRestrictionAxiom;
 import io.opencaesar.oml.RelationTargetRestrictionAxiom;
 import io.opencaesar.oml.ReverseRelation;
+import io.opencaesar.oml.Rule;
+import io.opencaesar.oml.SameAsPredicate;
 import io.opencaesar.oml.ScalarProperty;
 import io.opencaesar.oml.ScalarPropertyValueAssertion;
 import io.opencaesar.oml.Vocabulary;
@@ -279,7 +292,7 @@ public class Services {
 		return restrictions;
 	}
 
-	public EObject openTextEditor(EObject any) {
+	public static EObject openTextEditor(EObject any) {
 		if (any != null && any.eResource() instanceof XtextResource && any.eResource().getURI() != null) {
 
 			String fileURI = any.eResource().getURI().toPlatformString(true);
@@ -305,6 +318,182 @@ public class Services {
 		}
 		System.out.println(any);
 		return any;
+	}
+
+	public static String render(Rule rule) {
+		String antecedeant = rule.getAntecedent().stream().
+				map(p -> render(p)).
+				collect(Collectors.joining(" ^ "));
+		String consequent = rule.getConsequent().stream().
+				map(p -> render(p)).
+				collect(Collectors.joining(" ^ "));
+		return antecedeant + " -> " + consequent;
+	}
+
+	public static String render(Predicate predicate) {
+		if (predicate instanceof EntityPredicate)
+			return render((EntityPredicate)predicate);
+		if (predicate instanceof RelationEntityPredicate)
+			return render((RelationEntityPredicate)predicate);
+		if (predicate instanceof RelationPredicate)
+			return render((RelationPredicate)predicate);
+		if (predicate instanceof SameAsPredicate)
+			return render((SameAsPredicate)predicate);
+		if (predicate instanceof DifferentFromPredicate)
+			return render((DifferentFromPredicate)predicate);
+		return "";
+	}
+
+	public static String render(EntityPredicate predicate) {
+		return predicate.getEntity().getName()+"("+predicate.getVariable()+")";
+	}
+	
+	public static String render(RelationEntityPredicate predicate) {
+		return predicate.getEntity().getName()+"("+predicate.getVariable1()+", "+predicate.getEntityVariable()+ ", "+predicate.getVariable2()+")";
+	}
+
+	public static String render(RelationPredicate predicate) {
+		return predicate.getRelation().getName()+"("+predicate.getVariable1()+", "+predicate.getVariable2()+")";
+	}
+
+	public static String render(SameAsPredicate predicate) {
+		return "SameAs("+predicate.getVariable1()+", "+predicate.getVariable2()+")";
+	}
+
+	public static String render(DifferentFromPredicate predicate) {
+		return "DifferentFrom("+predicate.getVariable1()+", "+predicate.getVariable2()+")";
+	}
+
+	public static String render(ScalarProperty property) {
+		return property.getName()+" : "+OmlRead.getOntology(property).getPrefix()+":"+property.getRange().getName()+(property.isFunctional()? " [0..1]": "");
+	}
+
+	public static List<ScalarProperty> getVisualizedScalarProperties(Entity entity, Vocabulary vocabulary) {
+		return vocabulary.getOwnedStatements().stream()
+			.filter(s -> s instanceof ScalarProperty)
+			.map(s -> (ScalarProperty)s)
+			.filter(p -> p.getDomain() == entity)
+			.collect(Collectors.toList());
+	}
+	
+	public static Set<LinkAssertion> getVisualizedLinks(Description description) {
+		var links = new HashSet<LinkAssertion>();
+		links.addAll(description.getOwnedStatements().stream()
+				.filter(s -> s instanceof ConceptInstance)
+				.map(s -> (ConceptInstance)s)
+				.flatMap(ci -> ci.getOwnedLinks().stream())
+				.collect(Collectors.toSet()));
+		links.addAll(description.getOwnedStatements().stream()
+				.filter(s -> s instanceof ConceptInstanceReference)
+				.map(s -> (ConceptInstanceReference)s)
+				.flatMap(ci -> ci.getOwnedLinks().stream())
+				.collect(Collectors.toSet()));
+		return links;
+	}
+
+	public static Set<NamedInstance> getVisualizedNamedInstances(Description description) {
+		var instances = new HashSet<NamedInstance>();
+		// direct instances
+		instances.addAll(description.getOwnedStatements().stream()
+				.filter(s -> s instanceof NamedInstance)
+				.map(s -> (NamedInstance)s)
+				.collect(Collectors.toSet()));
+		// reference instances
+		instances.addAll(description.getOwnedStatements().stream()
+				.filter(s -> s instanceof NamedInstanceReference)
+				.map(s -> (NamedInstance) OmlRead.resolve((NamedInstanceReference)s))
+				.collect(Collectors.toSet()));
+		// related instances
+		instances.addAll(description.getOwnedStatements().stream()
+				.filter(e -> e instanceof RelationInstance)
+				.map(e -> (RelationInstance)e)
+				.flatMap(i -> Stream.of(i.getSources().get(0), i.getTargets().get(0)))
+				.collect(Collectors.toSet()));
+		// linked instances
+		instances.addAll(description.getOwnedStatements().stream()
+				.filter(s -> s instanceof NamedInstance)
+				.map(s -> (NamedInstance)s)
+				.flatMap(i -> i.getOwnedLinks().stream())
+				.map(l -> l.getTarget())
+				.collect(Collectors.toSet()));
+		instances.addAll(description.getOwnedStatements().stream()
+				.filter(s -> s instanceof NamedInstanceReference)
+				.map(s -> (NamedInstance) OmlRead.resolve((NamedInstanceReference)s))
+				.flatMap(i -> i.getOwnedLinks().stream())
+				.map(l -> l.getTarget())
+				.collect(Collectors.toSet()));
+		return instances;
+	}
+
+	public static List<ScalarPropertyValueAssertion> getVisualizedScalarPropertyValues(NamedInstance instance, Description description) {
+		if (description.getOwnedStatements().contains(instance)) {
+			return instance.getOwnedPropertyValues().stream()
+				.filter(a -> a instanceof ScalarPropertyValueAssertion)
+				.map(a -> (ScalarPropertyValueAssertion)a)
+				.collect(Collectors.toList());
+		} else {
+			var reference = description.getOwnedStatements().stream()
+				.filter(s -> s instanceof NamedInstanceReference)
+				.map(s -> (NamedInstanceReference)s)
+				.filter(r -> OmlRead.resolve(r) == instance)
+				.findAny().orElse(null);
+			if (reference != null) {
+				return reference.getOwnedPropertyValues().stream()
+						.filter(a -> a instanceof ScalarPropertyValueAssertion)
+						.map(a -> (ScalarPropertyValueAssertion)a)
+						.collect(Collectors.toList());
+			} else {
+				return Collections.emptyList();
+			}
+		}
+	}
+
+	public static String getTypes(ConceptInstance instance, Description description) {
+		if (description.getOwnedStatements().contains(instance)) {
+			return instance.getOwnedTypes().stream()
+				.map(a -> OmlRead.getOntology(a.getType()).getPrefix()+":"+a.getType().getName())
+				.collect(Collectors.joining(" ^ "));
+		} else {
+			var reference = description.getOwnedStatements().stream()
+				.filter(s -> s instanceof ConceptInstanceReference)
+				.map(s -> (ConceptInstanceReference)s)
+				.filter(r -> OmlRead.resolve(r) == instance)
+				.findAny().orElse(null);
+			if (reference != null) {
+				return reference.getOwnedTypes().stream()
+						.map(a -> OmlRead.getOntology(a.getType()).getPrefix()+":"+a.getType().getName())
+						.collect(Collectors.joining(" ^ "));
+			} else {
+				return "concept instance";
+			}
+		}
+	}
+
+	public static String getTypes(RelationInstance instance, Description description) {
+		if (description.getOwnedStatements().contains(instance)) {
+			return instance.getOwnedTypes().stream()
+				.map(a -> a.getType().getName())
+				.collect(Collectors.joining(" ^ "));
+		} else {
+			var reference = description.getOwnedStatements().stream()
+				.filter(s -> s instanceof RelationInstanceReference)
+				.map(s -> (RelationInstanceReference)s)
+				.filter(r -> OmlRead.resolve(r) == instance)
+				.findAny().orElse(null);
+			if (reference != null) {
+				return reference.getOwnedTypes().stream()
+						.map(a -> a.getType().getName())
+						.collect(Collectors.joining(" ^ "));
+			} else {
+				return "relation instance";
+			}
+		}
+	}
+
+	public static String render(ScalarPropertyValueAssertion assertion) {
+		var value = assertion.getValue();
+		String s = assertion.getProperty().getName()+" : "+OmlRead.getLexicalValue(value);
+		return s + ((value instanceof QuotedLiteral && ((QuotedLiteral)value).getType() != null) ? "^^"+((QuotedLiteral)value).getType().getName() : "");
 	}
 
 }
