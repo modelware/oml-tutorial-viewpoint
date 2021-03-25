@@ -415,6 +415,11 @@ public class Services {
 				.map(s -> (NamedInstance)s)
 				.flatMap(i -> i.getOwnedLinks().stream())
 				.map(l -> l.getTarget())
+				.flatMap(i -> (i instanceof RelationInstance) ? 
+						Stream.of(((RelationInstance)i).getSources().get(0),
+								  ((RelationInstance)i).getTargets().get(0),
+								  i) : 
+						Stream.of(i))
 				.collect(Collectors.toSet()));
 		instances.addAll(description.getOwnedStatements().stream()
 				.filter(s -> s instanceof NamedInstanceReference)
@@ -464,7 +469,10 @@ public class Services {
 						.map(a -> OmlRead.getOntology(a.getType()).getPrefix()+":"+a.getType().getName())
 						.collect(Collectors.joining(", "));
 			} else {
-				return "concept instance";
+				String type = instance.getOwnedTypes().stream()
+						.map(a -> OmlRead.getOntology(a.getType()).getPrefix()+":"+a.getType().getName())
+						.collect(Collectors.joining(", "));
+				return (type != null) ? type : "concept instance"; 
 			}
 		}
 	}
@@ -485,7 +493,10 @@ public class Services {
 						.map(a -> a.getType().getForwardRelation().getName())
 						.collect(Collectors.joining(", "));
 			} else {
-				return "relation instance";
+				String type = instance.getOwnedTypes().stream()
+						.map(a -> a.getType().getForwardRelation().getName())
+						.collect(Collectors.joining(", "));
+				return (type != null) ? type : "relation instance"; 
 			}
 		}
 	}

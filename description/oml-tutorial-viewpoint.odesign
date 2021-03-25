@@ -183,7 +183,7 @@
     <ownedRepresentations xsi:type="description_2:DiagramDescription" name="Instance Diagram" titleExpression="Instance Diagram" domainClass="oml.Description" enablePopupBars="true">
       <metamodel href="http://opencaesar.io/oml#/"/>
       <defaultLayer name="Default">
-        <edgeMappings name="LinkAssertion" semanticCandidatesExpression="aql:self.getVisualizedLinks()" doubleClickDescription="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='NavigateToXtextEditor']" sourceMapping="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@containerMappings[name='ConceptInstance']" targetMapping="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@containerMappings[name='ConceptInstance']" targetFinderExpression="aql:self.target" sourceFinderExpression="aql:self.getNamedInstance()" domainClass="oml.LinkAssertion" useDomainElement="true">
+        <edgeMappings name="LinkAssertion" semanticCandidatesExpression="aql:self.getVisualizedLinks()" doubleClickDescription="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='NavigateToXtextEditor']" sourceMapping="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@containerMappings[name='ConceptInstance'] //@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@edgeMappings[name='RelationInstance']" targetMapping="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@containerMappings[name='ConceptInstance'] //@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@edgeMappings[name='RelationInstance']" targetFinderExpression="aql:self.target" sourceFinderExpression="aql:self.getNamedInstance()" domainClass="oml.LinkAssertion" useDomainElement="true">
           <style sizeComputationExpression="2">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
             <centerLabelStyleDescription labelSize="12" showIcon="false" labelExpression="aql:'«'+self.relation.name+'»'">
@@ -191,7 +191,7 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <edgeMappings name="RelationInstance" semanticCandidatesExpression="aql:self.getVisualizedNamedInstances()" sourceMapping="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@containerMappings[name='ConceptInstance']" targetMapping="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@containerMappings[name='ConceptInstance']" targetFinderExpression="aql:self.targets->at(1)" sourceFinderExpression="aql:self.sources->at(1)" domainClass="oml.RelationInstance" useDomainElement="true">
+        <edgeMappings name="RelationInstance" semanticCandidatesExpression="aql:self.getVisualizedNamedInstances()" doubleClickDescription="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='NavigateToXtextEditor']" sourceMapping="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@containerMappings[name='ConceptInstance']" targetMapping="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@containerMappings[name='ConceptInstance']" targetFinderExpression="aql:self.targets->at(1)" sourceFinderExpression="aql:self.sources->at(1)" domainClass="oml.RelationInstance" useDomainElement="true">
           <style sizeComputationExpression="2">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
             <centerLabelStyleDescription labelSize="12" showIcon="false" labelExpression="aql:'«'+self.getTypes(diagram.target.oclAsType(oml::Description))+'»'">
@@ -200,7 +200,7 @@
           </style>
         </edgeMappings>
         <containerMappings name="ConceptInstance" semanticCandidatesExpression="aql:self.getVisualizedNamedInstances()" doubleClickDescription="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='NavigateToXtextEditor']" domainClass="oml.ConceptInstance" childrenPresentation="List">
-          <subNodeMappings name="Property Values" semanticCandidatesExpression="aql:self.getVisualizedScalarPropertyValues(diagram.target.oclAsType(oml::Description))" domainClass="oml.ScalarPropertyValueAssertion">
+          <subNodeMappings name="Property Values" semanticCandidatesExpression="aql:self.getVisualizedScalarPropertyValues(diagram.target.oclAsType(oml::Description))" doubleClickDescription="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='NavigateToXtextEditor']" domainClass="oml.ScalarPropertyValueAssertion">
             <style xsi:type="style:SquareDescription" labelSize="12" showIcon="false" labelExpression="aql:self.render()" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -215,7 +215,7 @@
           </style>
         </containerMappings>
         <toolSections name="Double Click Tools">
-          <ownedTools xsi:type="tool_1:DoubleClickDescription" name="NavigateToXtextEditor" mappings="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@containerMappings[name='ConceptInstance'] //@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@edgeMappings[name='LinkAssertion']">
+          <ownedTools xsi:type="tool_1:DoubleClickDescription" name="NavigateToXtextEditor" mappings="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@containerMappings[name='ConceptInstance'] //@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@edgeMappings[name='LinkAssertion'] //@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@edgeMappings[name='RelationInstance'] //@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@containerMappings[name='ConceptInstance']/@subNodeMappings[name='Property%20Values']">
             <element name="element"/>
             <elementView name="elementView"/>
             <initialOperation>
