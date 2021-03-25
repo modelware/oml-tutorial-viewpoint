@@ -232,6 +232,9 @@
             </featureCustomizations>
           </vsmElementCustomizations>
           <vsmElementCustomizations xsi:type="description:VSMElementCustomization" predicateExpression="aql:let r = self.oclAsType(oml::RelationInstance) in r.sources->intersection(r.targets)->notEmpty()">
+            <featureCustomizations xsi:type="description:EAttributeCustomization" appliedOn="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@edgeMappings[name='RelationInstance']/@style" attributeName="routingStyle" value="manhattan"/>
+          </vsmElementCustomizations>
+          <vsmElementCustomizations xsi:type="description:VSMElementCustomization" predicateExpression="aql:let r = self.oclAsType(oml::LinkAssertion) in r.getSource() = r.target">
             <featureCustomizations xsi:type="description:EAttributeCustomization" appliedOn="//@ownedViewpoints[name='Descriptions']/@ownedRepresentations[name='Instance%20Diagram']/@defaultLayer/@edgeMappings[name='LinkAssertion']/@style" attributeName="routingStyle" value="manhattan"/>
           </vsmElementCustomizations>
         </customization>

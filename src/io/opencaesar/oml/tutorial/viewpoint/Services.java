@@ -418,7 +418,7 @@ public class Services {
 				.collect(Collectors.toSet()));
 		instances.addAll(description.getOwnedStatements().stream()
 				.filter(s -> s instanceof NamedInstanceReference)
-				.map(s -> (NamedInstance) OmlRead.resolve((NamedInstanceReference)s))
+				.map(s -> (NamedInstanceReference) s)
 				.flatMap(i -> i.getOwnedLinks().stream())
 				.map(l -> l.getTarget())
 				.collect(Collectors.toSet()));
@@ -452,17 +452,17 @@ public class Services {
 		if (description.getOwnedStatements().contains(instance)) {
 			return instance.getOwnedTypes().stream()
 				.map(a -> OmlRead.getOntology(a.getType()).getPrefix()+":"+a.getType().getName())
-				.collect(Collectors.joining(" ^ "));
+				.collect(Collectors.joining(", "));
 		} else {
 			var reference = description.getOwnedStatements().stream()
 				.filter(s -> s instanceof ConceptInstanceReference)
 				.map(s -> (ConceptInstanceReference)s)
 				.filter(r -> OmlRead.resolve(r) == instance)
 				.findAny().orElse(null);
-			if (reference != null) {
+			if (reference != null && !reference.getOwnedTypes().isEmpty()) {
 				return reference.getOwnedTypes().stream()
 						.map(a -> OmlRead.getOntology(a.getType()).getPrefix()+":"+a.getType().getName())
-						.collect(Collectors.joining(" ^ "));
+						.collect(Collectors.joining(", "));
 			} else {
 				return "concept instance";
 			}
@@ -472,18 +472,18 @@ public class Services {
 	public static String getTypes(RelationInstance instance, Description description) {
 		if (description.getOwnedStatements().contains(instance)) {
 			return instance.getOwnedTypes().stream()
-				.map(a -> a.getType().getName())
-				.collect(Collectors.joining(" ^ "));
+				.map(a -> a.getType().getForwardRelation().getName())
+				.collect(Collectors.joining(", "));
 		} else {
 			var reference = description.getOwnedStatements().stream()
 				.filter(s -> s instanceof RelationInstanceReference)
 				.map(s -> (RelationInstanceReference)s)
 				.filter(r -> OmlRead.resolve(r) == instance)
 				.findAny().orElse(null);
-			if (reference != null) {
+			if (reference != null && !reference.getOwnedTypes().isEmpty()) {
 				return reference.getOwnedTypes().stream()
-						.map(a -> a.getType().getName())
-						.collect(Collectors.joining(" ^ "));
+						.map(a -> a.getType().getForwardRelation().getName())
+						.collect(Collectors.joining(", "));
 			} else {
 				return "relation instance";
 			}
