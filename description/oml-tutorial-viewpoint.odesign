@@ -311,7 +311,7 @@
         </containerMappings>
         <containerMappings name="Aspect" semanticCandidatesExpression="aql:self.getVisualizedEntities()" doubleClickDescription="//@ownedViewpoints[name='Vocabularies']/@ownedRepresentations[name='Entity%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='NavigateToXtextEditor']" domainClass="oml.Aspect" childrenPresentation="List">
           <subNodeMappings name="Attributes" semanticCandidatesExpression="aql:self.getVisualizedScalarProperties(diagram.target.oclAsType(oml::Vocabulary))" domainClass="oml.ScalarProperty">
-            <style xsi:type="style:SquareDescription" labelSize="12" showIcon="false" labelExpression="aql:self.render()" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
+            <style xsi:type="style:SquareDescription" labelSize="12" showIcon="false" labelExpression="aql:self.render(view.eContainer().oclAsType(diagram::DDiagramElement).target.oclAsType(oml::Entity))" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>

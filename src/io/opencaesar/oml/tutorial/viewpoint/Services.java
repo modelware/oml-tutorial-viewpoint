@@ -364,8 +364,9 @@ public class Services {
 		return "DifferentFrom("+predicate.getVariable1()+", "+predicate.getVariable2()+")";
 	}
 
-	public static String render(ScalarProperty property) {
-		return property.getName()+" : "+OmlRead.getOntology(property).getPrefix()+":"+property.getRange().getName()+(property.isFunctional()? " [0..1]": "");
+	public static String render(ScalarProperty property, Entity entity) {
+		var isKey = entity.getOwnedKeys().stream().anyMatch(k -> k.getProperties().contains(property));
+		return property.getName()+" : "+OmlRead.getOntology(property).getPrefix()+":"+property.getRange().getName()+(property.isFunctional()? " [0..1]": "")+(isKey ? " (key)" : "");
 	}
 
 	public static List<ScalarProperty> getVisualizedScalarProperties(Entity entity, Vocabulary vocabulary) {
