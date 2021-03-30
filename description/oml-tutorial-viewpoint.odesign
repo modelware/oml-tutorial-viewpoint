@@ -103,25 +103,25 @@
           <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:self"/>
         </delete>
       </ownedLineMappings>
-      <ownedColumnMappings name="label" headerLabelExpression="Label" featureName="name" labelExpression="aql:self.oclAsType(oml::AnnotatedElement).findAnnotationValuesForAbbreviatedIri('rdfs:label')->first().getLexicalValue()">
+      <ownedColumnMappings name="Id" headerLabelExpression="Id" featureName="name" labelExpression="aql:self->filter(oml::ConceptInstance).findScalarPropertyValuesByAbbreviatedIri('base:hasIdentifier')->first().getLexicalValue()">
         <directEdit>
           <variables name="element" documentation="The semantic currently edited element."/>
           <variables name="table" documentation="The current DTable."/>
           <variables name="line" documentation="The DLine of the current DCell."/>
           <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
           <variables name="root" documentation="The semantic root element of the table."/>
-          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="aql:self.oclAsType(oml::AnnotatedElement).setPropertyByAbbreviatedIri('rdfs:label', arg0)"/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="aql:self->filter(oml::ConceptInstance).setPropertyByAbbreviatedIri('base:hasIdentifier', arg0)"/>
           <mask mask="{0}"/>
         </directEdit>
       </ownedColumnMappings>
-      <ownedColumnMappings name="description" headerLabelExpression="Description" canEdit="true" featureName="name" labelExpression="aql:self.oclAsType(oml::AnnotatedElement).findAnnotationValuesForAbbreviatedIri('dc:description')->first().getLexicalValue()">
+      <ownedColumnMappings name="Canonical Name" headerLabelExpression="Canonical Name" canEdit="true" featureName="name" labelExpression="aql:self->filter(oml::ConceptInstance).findScalarPropertyValuesByAbbreviatedIri('base:hasCanonicalName')->first().getLexicalValue()">
         <directEdit>
           <variables name="element" documentation="The semantic currently edited element."/>
           <variables name="table" documentation="The current DTable."/>
           <variables name="line" documentation="The DLine of the current DCell."/>
           <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
           <variables name="root" documentation="The semantic root element of the table."/>
-          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="aql:self.oclAsType(oml::AnnotatedElement).setPropertyByAbbreviatedIri('dc:description', arg0)"/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="aql:self->filter(oml::ConceptInstance).setPropertyByAbbreviatedIri('base:hasCanonicalName', arg0)"/>
           <mask mask="{0}"/>
         </directEdit>
       </ownedColumnMappings>
@@ -405,13 +405,15 @@
   </ownedViewpoints>
   <extensions xsi:type="properties:ViewExtensionDescription" name="Properties">
     <categories name="Default Category">
-      <pages name="General" labelExpression="General" domainClass="oml.Element" semanticCandidateExpression="var:self" groups="//@extensions.0/@categories.0/@groups.0 //@extensions.0/@categories.0/@groups.1 //@extensions.0/@categories.0/@groups.2"/>
-      <groups name="Member" labelExpression="Member" domainClass="oml.Member" semanticCandidateExpression="var:self">
+      <pages name="General" labelExpression="General" domainClass="oml.Element" semanticCandidateExpression="var:self" groups="//@extensions.0/@categories.0/@groups.0 //@extensions.0/@categories.0/@groups.3 //@extensions.0/@categories.0/@groups.4 //@extensions.0/@categories.0/@groups.2"/>
+      <groups name="IdentifiedElement" labelExpression="Named Element" domainClass="oml.IdentifiedElement" semanticCandidateExpression="var:self">
         <controls xsi:type="properties:TextDescription" name="Name" labelExpression="Name" valueExpression="aql:self.name">
           <initialOperation>
             <firstModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="var:newValue"/>
           </initialOperation>
         </controls>
+      </groups>
+      <groups name="Term" labelExpression="Term" domainClass="oml.Term" semanticCandidateExpression="var:self">
         <controls xsi:type="properties:TextDescription" name="Label" labelExpression="Label" valueExpression="aql:self.getAnnotationByAbbreviatedIri('rdfs:label')">
           <initialOperation>
             <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.oclAsType(oml::AnnotatedElement).setPropertyByAbbreviatedIri('rdfs:label', newValue)"/>
@@ -420,6 +422,18 @@
         <controls xsi:type="properties:TextAreaDescription" name="Description" labelExpression="Description" valueExpression="aql:self.getAnnotationByAbbreviatedIri('dc:description')">
           <initialOperation>
             <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.oclAsType(oml::AnnotatedElement).setPropertyByAbbreviatedIri('dc:description', newValue)"/>
+          </initialOperation>
+        </controls>
+      </groups>
+      <groups name="Instance" labelExpression="Instance" domainClass="oml.NamedInstance" semanticCandidateExpression="var:self">
+        <controls xsi:type="properties:TextDescription" name="Id" labelExpression="Id" valueExpression="aql:self.getScalarPropertyValueByAbbreviatedIri('base:hasIdentifier')">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self->filter(oml::ConceptInstance).setPropertyByAbbreviatedIri('base:hasIdentifier', newValue)"/>
+          </initialOperation>
+        </controls>
+        <controls xsi:type="properties:TextAreaDescription" name="Canonical Name" labelExpression="Canonical Name" valueExpression="aql:self.getScalarPropertyValueByAbbreviatedIri('base:hasCanonicalName')">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self->filter(oml::ConceptInstance).setPropertyByAbbreviatedIri('base:hasCanonicalName', newValue)"/>
           </initialOperation>
         </controls>
       </groups>
@@ -437,7 +451,7 @@
                   <firstModelOperations xsi:type="tool:ChangeContext"/>
                 </initialOperation>
               </buttons>
-              <page name="Source Entity" labelExpression="Source Entity" domainClass="oml.RelationEntity" semanticCandidateExpression="var:self" groups="//@extensions.0/@categories.0/@groups.1/@controls.0/@initialOperation/@firstModelOperations/@groups.0"/>
+              <page name="Source Entity" labelExpression="Source Entity" domainClass="oml.RelationEntity" semanticCandidateExpression="var:self" groups="//@extensions.0/@categories.0/@groups.3/@controls.0/@initialOperation/@firstModelOperations/@groups.0"/>
               <groups name="Entity" labelExpression="Entity" domainClass="oml.RelationEntity" semanticCandidateExpression="var:self">
                 <controls xsi:type="properties:SelectDescription" name="Name" labelExpression="Name" valueExpression="aql:self.source" candidatesExpression="aql:self.getOntology().getStatements()->filter(oml::Entity)->sortedBy(i | i.name)" candidateDisplayExpression="aql:candidate.name">
                   <initialOperation>
@@ -461,7 +475,7 @@
                   <firstModelOperations xsi:type="tool:ChangeContext"/>
                 </initialOperation>
               </buttons>
-              <page name="Target Entity" labelExpression="Target Entity" domainClass="oml.RelationEntity" semanticCandidateExpression="var:self" groups="//@extensions.0/@categories.0/@groups.1/@controls.1/@initialOperation/@firstModelOperations/@groups.0"/>
+              <page name="Target Entity" labelExpression="Target Entity" domainClass="oml.RelationEntity" semanticCandidateExpression="var:self" groups="//@extensions.0/@categories.0/@groups.3/@controls.1/@initialOperation/@firstModelOperations/@groups.0"/>
               <groups name="Entity" labelExpression="Entity" domainClass="oml.RelationEntity" semanticCandidateExpression="var:self">
                 <controls xsi:type="properties:SelectDescription" name="Name" labelExpression="Name" valueExpression="aql:self.target" candidatesExpression="aql:self.getOntology().getStatements()->filter(oml::Entity)->sortedBy(i | i.name)" candidateDisplayExpression="aql:candidate.name">
                   <initialOperation>

@@ -73,6 +73,13 @@ public class Services {
 		return null;
 	}
 
+	public static Object getScalarPropertyValueByAbbreviatedIri(NamedInstance instance, String abbreviatedPropertyIri) {
+		for (var propertyValue : OmlSearch.findScalarPropertyValuesByAbbreviatedIri(instance, abbreviatedPropertyIri)) {
+			return OmlRead.getLexicalValue(propertyValue);
+		} 
+		return null;
+	}
+
 	public static void setPropertyByAbbreviatedIri(AnnotatedElement element, String abbreviatedPropertyIri, Object value) {
 		if (value.equals("")) value = null; 
 		var ontology = OmlRead.getOntology(element);
