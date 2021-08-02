@@ -29,8 +29,8 @@ import io.opencaesar.oml.ConceptInstanceReference;
 import io.opencaesar.oml.Description;
 import io.opencaesar.oml.DifferentFromPredicate;
 import io.opencaesar.oml.Entity;
-import io.opencaesar.oml.EntityPredicate;
 import io.opencaesar.oml.EntityReference;
+import io.opencaesar.oml.FeaturePredicate;
 import io.opencaesar.oml.ForwardRelation;
 import io.opencaesar.oml.LinkAssertion;
 import io.opencaesar.oml.Literal;
@@ -47,7 +47,6 @@ import io.opencaesar.oml.RelationEntity;
 import io.opencaesar.oml.RelationEntityPredicate;
 import io.opencaesar.oml.RelationInstance;
 import io.opencaesar.oml.RelationInstanceReference;
-import io.opencaesar.oml.RelationPredicate;
 import io.opencaesar.oml.RelationRangeRestrictionAxiom;
 import io.opencaesar.oml.RelationRestrictionAxiom;
 import io.opencaesar.oml.RelationTargetRestrictionAxiom;
@@ -56,6 +55,7 @@ import io.opencaesar.oml.Rule;
 import io.opencaesar.oml.SameAsPredicate;
 import io.opencaesar.oml.ScalarProperty;
 import io.opencaesar.oml.ScalarPropertyValueAssertion;
+import io.opencaesar.oml.TypePredicate;
 import io.opencaesar.oml.Vocabulary;
 import io.opencaesar.oml.util.OmlFactory2;
 import io.opencaesar.oml.util.OmlRead;
@@ -67,14 +67,16 @@ import io.opencaesar.oml.util.OmlSearch;
 public class Services {
     
 	public static Object getAnnotationByAbbreviatedIri(AnnotatedElement element, String abbreviatedPropertyIri) {
-		for (var propertyValue : OmlSearch.findAnnotationValuesForAbbreviatedIri(element, abbreviatedPropertyIri)) {
-			return OmlRead.getLiteralValue(propertyValue);
+		var property = (AnnotationProperty) OmlRead.getMemberByAbbreviatedIri(element, abbreviatedPropertyIri); 
+		for (var propertyValue : OmlSearch.findAnnotationValues(element, property)) {
+			return OmlRead.getValue(propertyValue);
 		}
 		return null;
 	}
 
 	public static Object getScalarPropertyValueByAbbreviatedIri(NamedInstance instance, String abbreviatedPropertyIri) {
-		for (var propertyValue : OmlSearch.findScalarPropertyValuesByAbbreviatedIri(instance, abbreviatedPropertyIri)) {
+		var property = (AnnotationProperty) OmlRead.getMemberByAbbreviatedIri(instance, abbreviatedPropertyIri); 
+		for (var propertyValue : OmlSearch.findAnnotationValues(instance, property)) {
 			return OmlRead.getLexicalValue(propertyValue);
 		} 
 		return null;
@@ -82,7 +84,7 @@ public class Services {
 
 	public static void setPropertyByAbbreviatedIri(AnnotatedElement element, String abbreviatedPropertyIri, Object value) {
 		if (value.equals("")) value = null; 
-		var ontology = OmlRead.getOntology(element);
+		var ontology = element.getOntology();
 		var property = OmlRead.getMemberByAbbreviatedIri(ontology, abbreviatedPropertyIri);
 		var valueWasSet = false;
 		if (property instanceof AnnotationProperty) {
@@ -338,12 +340,12 @@ public class Services {
 	}
 
 	public static String render(Predicate predicate) {
-		if (predicate instanceof EntityPredicate)
-			return render((EntityPredicate)predicate);
+		if (predicate instanceof TypePredicate)
+			return render((TypePredicate)predicate);
 		if (predicate instanceof RelationEntityPredicate)
 			return render((RelationEntityPredicate)predicate);
-		if (predicate instanceof RelationPredicate)
-			return render((RelationPredicate)predicate);
+		if (predicate instanceof FeaturePredicate)
+			return render((FeaturePredicate)predicate);
 		if (predicate instanceof SameAsPredicate)
 			return render((SameAsPredicate)predicate);
 		if (predicate instanceof DifferentFromPredicate)
@@ -351,16 +353,16 @@ public class Services {
 		return "";
 	}
 
-	public static String render(EntityPredicate predicate) {
-		return predicate.getEntity().getName()+"("+predicate.getVariable()+")";
+	public static String render(TypePredicate predicate) {
+		return predicate.getType().getName()+"("+predicate.getVariable()+")";
 	}
 	
 	public static String render(RelationEntityPredicate predicate) {
 		return predicate.getEntity().getName()+"("+predicate.getVariable1()+", "+predicate.getEntityVariable()+ ", "+predicate.getVariable2()+")";
 	}
 
-	public static String render(RelationPredicate predicate) {
-		return predicate.getRelation().getName()+"("+predicate.getVariable1()+", "+predicate.getVariable2()+")";
+	public static String render(FeaturePredicate predicate) {
+		return predicate.getFeature().getName()+"("+predicate.getVariable1()+", "+predicate.getVariable2()+")";
 	}
 
 	public static String render(SameAsPredicate predicate) {
@@ -373,7 +375,7 @@ public class Services {
 
 	public static String render(ScalarProperty property, Entity entity) {
 		var isKey = entity.getOwnedKeys().stream().anyMatch(k -> k.getProperties().contains(property));
-		return property.getName()+" : "+OmlRead.getOntology(property).getPrefix()+":"+property.getRange().getName()+(property.isFunctional()? " [0..1]": "")+(isKey ? " (key)" : "");
+		return property.getName()+" : "+property.getOntology().getPrefix()+":"+property.getRange().getName()+(property.isFunctional()? " [0..1]": "")+(isKey ? " (key)" : "");
 	}
 
 	public static List<ScalarProperty> getVisualizedScalarProperties(Entity entity, Vocabulary vocabulary) {
@@ -464,7 +466,7 @@ public class Services {
 	public static String getTypes(ConceptInstance instance, Description description) {
 		if (description.getOwnedStatements().contains(instance)) {
 			return instance.getOwnedTypes().stream()
-				.map(a -> OmlRead.getOntology(a.getType()).getPrefix()+":"+a.getType().getName())
+				.map(a -> a.getType().getOntology().getPrefix()+":"+a.getType().getName())
 				.collect(Collectors.joining(", "));
 		} else {
 			var reference = description.getOwnedStatements().stream()
@@ -474,11 +476,11 @@ public class Services {
 				.findAny().orElse(null);
 			if (reference != null && !reference.getOwnedTypes().isEmpty()) {
 				return reference.getOwnedTypes().stream()
-						.map(a -> OmlRead.getOntology(a.getType()).getPrefix()+":"+a.getType().getName())
+						.map(a -> a.getType().getOntology().getPrefix()+":"+a.getType().getName())
 						.collect(Collectors.joining(", "));
 			} else {
 				String type = instance.getOwnedTypes().stream()
-						.map(a -> OmlRead.getOntology(a.getType()).getPrefix()+":"+a.getType().getName())
+						.map(a -> a.getType().getOntology().getPrefix()+":"+a.getType().getName())
 						.collect(Collectors.joining(", "));
 				return (type != null) ? type : "concept instance"; 
 			}
